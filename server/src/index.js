@@ -2,17 +2,35 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
+const mongoose = require('mongoose');
+
+require('dotenv').config();
 
 const middlewares = require('./middlewares');
 
 // Express app setup
 const app = express();
 
+// Setup database connection
+mongoose.connect(process.env.DATABASE_URL, {
+  autoIndex: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+// Let's be sure the database is connected.
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+  console.log('Database has been connected!');
+});
+
 // Middlewares
 app.use(morgan('common'));
 app.use(helmet());
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: process.env.CORS_ORIGIN
 }));
 
 // app.disable('x-powered-by')
