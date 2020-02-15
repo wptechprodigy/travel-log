@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const middlewares = require('./middlewares');
+const logsRoute = require('./api/logsRoute');
 
 // Express app setup
 const app = express();
@@ -15,7 +16,9 @@ const app = express();
 mongoose.connect(process.env.DATABASE_URL, {
   autoIndex: false,
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
 });
 
 // Let's be sure the database is connected.
@@ -29,17 +32,25 @@ db.once('open', function() {
 // Middlewares
 app.use(morgan('common'));
 app.use(helmet());
-app.use(cors({
-  origin: process.env.CORS_ORIGIN
-}));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+  })
+);
+// parse application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: false }));
+// parse application/json
+app.use(express.json());
 
 // app.disable('x-powered-by')
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'Hello World!'
+    message: 'Hello World!',
   });
 });
+
+app.use('/api/logs', logsRoute);
 
 // If all routes are not found - error handler
 app.use(middlewares.notFound);
@@ -50,4 +61,4 @@ const port = process.env.PORT || 1980;
 
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
-})
+});
