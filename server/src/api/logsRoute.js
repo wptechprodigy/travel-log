@@ -57,4 +57,20 @@ router.patch('/:entryId', async (req, res, next) => {
   }
 });
 
+router.delete('/:entryId', async (req, res, next) => {
+  const { entryId } = req.params;
+
+  try {
+    const entry = await LogEntry.findOneAndRemove({ _id: entryId }).exec();
+
+    res.status(200).json(entry);
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      res.status(422);
+    }
+
+    next(error);
+  }
+});
+
 module.exports = router;
