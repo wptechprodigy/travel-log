@@ -36,7 +36,15 @@ function App() {
           offsetLeft={-20}
           offsetTop={-10}
         >
-          <div>{entry.title}</div>
+          <img
+            src="https://i.imgur.com/y0G5YTX.png"
+            alt="marker"
+            style={{
+              width: `calc(1vmin * ${viewport.zoom})`,
+              height: `calc(1vmin * ${viewport.zoom})`
+            }}
+            className="marker"
+          />
         </Marker>
       ))}
     </ReactMapGL>
