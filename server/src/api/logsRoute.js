@@ -7,7 +7,7 @@ router.get('/', async (req, res, next) => {
   try {
     const entries = await LogEntry.find();
 
-    res.status(200).json({ data: entries });
+    res.status(200).json(entries);
   } catch (error) {
     next(error);
   }
