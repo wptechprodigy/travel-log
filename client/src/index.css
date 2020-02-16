@@ -8,5 +8,5 @@ body {
 }
 
 .marker {
-  stroke: #07058d;
+  transform: translate(-50%, -100%);
 }
