@@ -1,25 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import ReactMapGL, { Marker } from 'react-map-gl';
+import { listLogEntry } from './API';
 
 function App() {
+  const [logEntries, setLogEntries] = useState([]);
+  const [viewport, setViewport] = useState({
+    width: '100vw',
+    height: '100vh',
+    latitude: 9.082,
+    longitude: 8.6753,
+    zoom: 3,
+  });
+
+  // Since useEffect cannot be make an async function
+  // A work around will be to make an async IIFE to await the fetch from our server
+  useEffect(() => {
+    (async () => {
+      const logEntries = await listLogEntry();
+      setLogEntries(logEntries);
+    })();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ReactMapGL
+      {...viewport}
+      mapStyle="mapbox://styles/waheedafolabi/ck6opw94l0aoo1is5vavsunkt"
+      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+      onViewportChange={setViewport}
+    >
+      {logEntries.map(entry => (
+        <Marker
+          key={entry._id}
+          latitude={entry.latitude}
+          longitude={entry.longitude}
+          offsetLeft={-20}
+          offsetTop={-10}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <div>{entry.title}</div>
+        </Marker>
+      ))}
+    </ReactMapGL>
   );
 }
 
