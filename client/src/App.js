@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import { listLogEntry } from './API';
 
@@ -30,7 +30,7 @@ function App() {
       onViewportChange={setViewport}
     >
       {logEntries.map(entry => (
-        <>
+        <Fragment key={entry._id}>
           <Marker
             key={entry._id}
             latitude={entry.latitude}
@@ -75,7 +75,7 @@ function App() {
               </div>
             </Popup>
           ) : null}
-        </>
+        </Fragment>
       ))}
     </ReactMapGL>
   );
