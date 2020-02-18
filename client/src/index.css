@@ -30,11 +30,48 @@ h5 {
   transform: translate(-50%, -100%);
 }
 
+.marker.yellow path:first-child {
+  fill: #fdd132;
+  stroke: 2px solid #333;
+}
+
+.marker.yellow path:last-child {
+  fill: #dfae00;
+  stroke: 2px solid #333;
+}
+
+.marker.red path:first-child {
+  fill: #fd003a;
+}
+
+.marker.red path:last-child {
+  fill: #e50027;
+}
+
 .popup {
-  max-width: 300px;
+  max-width: 35vw;
   padding-left: 3%;
 }
 
 .visitedOn {
   opacity: 0.65;
+}
+
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  padding: 2.5%;
+}
+
+.entry-form label, .entry-form .btn  {
+  font-family: 'EconomicaBold';
+}
+
+.entry-form .btn {
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  padding: 4% 5%;
+  font-size: 1.08rem;
+  cursor: pointer;
 }
