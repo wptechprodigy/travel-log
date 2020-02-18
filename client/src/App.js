@@ -16,13 +16,15 @@ function App() {
     zoom: 3,
   });
 
+  const getEntries = async () => {
+    const logEntries = await listLogEntry();
+    setLogEntries(logEntries);
+  };
+
   // Since useEffect cannot be make an async function
   // A work around will be to make an async IIFE to await the fetch from our server
   useEffect(() => {
-    (async () => {
-      const logEntries = await listLogEntry();
-      setLogEntries(logEntries);
-    })();
+    getEntries();
   }, []);
 
   const showAddMarkerPopup = event => {
@@ -71,7 +73,10 @@ function App() {
               anchor="top"
             >
               <div className="popup">
+                {entry.image && <img src={entry.image} alt={entry.title} />}
                 <h3>{entry.title}</h3>
+                <small>Ratings: {entry.rating}</small>
+                <p>{entry.description}</p>
                 <p>{entry.comments}</p>
                 <small className="visitedOn">
                   Visited on: {new Date(entry.visitedDate).toLocaleDateString()}
@@ -98,13 +103,19 @@ function App() {
               latitude={addEntryLocation.latitude}
               longitude={addEntryLocation.longitude}
               closeButton={true}
-              closeOnClick={true}
               dynamicPosition={true}
+              closeOnClick={false}
               onClose={() => setAddEntryLocation(null)}
               anchor="top"
             >
               <div className="popup">
-                <LogEntryForm />
+                <LogEntryForm
+                  location={addEntryLocation}
+                  onClose={() => {
+                    setAddEntryLocation(null);
+                    getEntries();
+                  }}
+                />
               </div>
             </Popup>
           ) : null}
