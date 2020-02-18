@@ -48,9 +48,17 @@ h5 {
   fill: #e50027;
 }
 
+.error {
+  color: #fd003a;
+}
+
 .popup {
-  max-width: 35vw;
-  padding-left: 3%;
+  width: 40vw;
+  /* padding-left: 3%; */
+}
+
+.popup img {
+  width: 100%;
 }
 
 .visitedOn {
@@ -60,18 +68,31 @@ h5 {
 .entry-form {
   display: flex;
   flex-direction: column;
-  padding: 2.5%;
+  padding: 2.5% 2.5% 2.5% 2.5%;
 }
 
-.entry-form label, .entry-form .btn  {
+.entry-form label,
+.entry-form .btn {
   font-family: 'EconomicaBold';
 }
 
 .entry-form .btn {
   margin-top: 0.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 3px;
   padding: 4% 5%;
-  font-size: 1.08rem;
+  font-size: 1.65rem;
   cursor: pointer;
+  background-color: #060503;
+  color: cornsilk;
+}
+
+.inputs {
+  border-radius: 3px;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  border: 1px solid rgba(6, 5, 3, 0.3);
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  line-height: 1rem;
 }
