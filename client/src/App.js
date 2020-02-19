@@ -1,10 +1,13 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import { listLogEntry } from './API';
+import LocationMarker from './components/LocationMarker';
+import LogEntryForm from './components/LogEntryForm';
 
 function App() {
   const [logEntries, setLogEntries] = useState([]);
   const [showPopup, setShowPopup] = useState({});
+  const [addEntryLocation, setAddEntryLocation] = useState(null);
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: '100vh',
@@ -13,14 +16,24 @@ function App() {
     zoom: 3,
   });
 
+  const getEntries = async () => {
+    const logEntries = await listLogEntry();
+    setLogEntries(logEntries);
+  };
+
   // Since useEffect cannot be make an async function
   // A work around will be to make an async IIFE to await the fetch from our server
   useEffect(() => {
-    (async () => {
-      const logEntries = await listLogEntry();
-      setLogEntries(logEntries);
-    })();
+    getEntries();
   }, []);
+
+  const showAddMarkerPopup = event => {
+    const [longitude, latitude] = event.lngLat;
+    setAddEntryLocation({
+      longitude,
+      latitude,
+    });
+  };
 
   return (
     <ReactMapGL
@@ -28,6 +41,7 @@ function App() {
       mapStyle="mapbox://styles/waheedafolabi/ck6opw94l0aoo1is5vavsunkt"
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={setViewport}
+      onDblClick={showAddMarkerPopup}
     >
       {logEntries.map(entry => (
         <Fragment key={entry._id}>
@@ -45,15 +59,7 @@ function App() {
                 })
               }
             >
-              <img
-                src="https://i.imgur.com/y0G5YTX.png"
-                alt="marker"
-                style={{
-                  width: `calc(1vmin * ${viewport.zoom})`,
-                  height: `calc(1vmin * ${viewport.zoom})`,
-                }}
-                className="marker"
-              />
+              <LocationMarker viewport={viewport} color="yellow" />
             </div>
           </Marker>
           {showPopup[entry._id] ? (
@@ -67,9 +73,12 @@ function App() {
               anchor="top"
             >
               <div className="popup">
+                {entry.image && <img src={entry.image} alt={entry.title} />}
                 <h3>{entry.title}</h3>
+                <small>Ratings: {entry.rating}</small>
+                <p>{entry.description}</p>
                 <p>{entry.comments}</p>
-                <small className='visitedOn'>
+                <small className="visitedOn">
                   Visited on: {new Date(entry.visitedDate).toLocaleDateString()}
                 </small>
               </div>
@@ -77,6 +86,41 @@ function App() {
           ) : null}
         </Fragment>
       ))}
+      {addEntryLocation ? (
+        <>
+          <Marker
+            latitude={addEntryLocation.latitude}
+            longitude={addEntryLocation.longitude}
+            offsetLeft={-20}
+            offsetTop={-10}
+          >
+            <div>
+              <LocationMarker viewport={viewport} color="red" />
+            </div>
+          </Marker>
+          {addEntryLocation ? (
+            <Popup
+              latitude={addEntryLocation.latitude}
+              longitude={addEntryLocation.longitude}
+              closeButton={true}
+              dynamicPosition={true}
+              closeOnClick={false}
+              onClose={() => setAddEntryLocation(null)}
+              anchor="top"
+            >
+              <div className="popup">
+                <LogEntryForm
+                  location={addEntryLocation}
+                  onClose={() => {
+                    setAddEntryLocation(null);
+                    getEntries();
+                  }}
+                />
+              </div>
+            </Popup>
+          ) : null}
+        </>
+      ) : null}
     </ReactMapGL>
   );
 }
