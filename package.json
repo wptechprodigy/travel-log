@@ -5,10 +5,10 @@
   "author": "Waheed Afolabi <waheed.remote247@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "client": "cd client && yarn start --prefix client",
-    "server": "cd server && node src/index.js",
+    "client": "cd client && yarn build --prefix client",
+    "server": "cd server && yarn start --prefix server",
     "start:dev": "concurrently 'yarn server' 'yarn client'",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --prefix client && yarn build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --prefix client && yarn build --prefix"
   },
   "dependencies": {
     "concurrently": "^5.1.0"
