@@ -11,7 +11,7 @@
     "lint": "eslint src/",
     "build": "cd client && yarn build",
     "install-client": "cd client && yarn install",
-    "heroku-postbuild": "yarn install-client && yarn build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install-client && yarn build"
   },
   "dependencies": {
     "cors": "^2.8.5",
