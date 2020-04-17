@@ -5,8 +5,8 @@
   "author": "Waheed Afolabi <waheed.remote247@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "client": "cd client && yarn build --prefix client",
-    "server": "cd server && yarn start --prefix server",
+    "client": "yarn build --prefix client",
+    "server": "yarn start --prefix server",
     "start:dev": "concurrently 'yarn server' 'yarn client'",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --prefix client && yarn build --prefix"
   },
