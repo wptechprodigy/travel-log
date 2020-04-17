@@ -21,9 +21,21 @@ TODO
 
 - Create a new log entry
 
+✔ PATCH /logs/:entryid
+
+- Update a log entry with ID: entryId
+
 ✔ GET /logs
 
 - List all log entries
+
+✔ GET /logs/:entryid
+
+- List a single log entry with ID: entryId
+
+✔ DELETE /logs/:entryid
+
+- Delete a single log entry with ID: entryId
 
 ✔ Setup Client
 

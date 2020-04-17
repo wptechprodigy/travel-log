@@ -1,0 +1,16 @@
+{
+  "name": "travel-log",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Waheed Afolabi <waheed.remote247@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "client": "cd client && yarn start --prefix client",
+    "server": "cd server && yarn dev --prefix server",
+    "start:dev": "concurrently 'yarn server' 'yarn client'",
+    "heroku-postbuild": "cd server && NPM_CONFIG_PRODUCTION=false yarn --prefix client && yarn build --prefix client"
+  },
+  "dependencies": {
+    "concurrently": "^5.1.0"
+  }
+}
