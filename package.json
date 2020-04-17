@@ -8,7 +8,7 @@
     "build": "cd client && yarn build",
     "install-client": "cd client && yarn install",
     "client": "cd client && yarn start",
-    "start": "cd server && yarn start",
+    "start": "cd server && yarn start && yarn heroku-postbuild",
     "start:dev": "concurrently 'yarn server' 'yarn client'",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install-client && yarn build"
   },
