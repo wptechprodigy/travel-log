@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
 
 require('dotenv').config();
 
@@ -13,7 +14,7 @@ const logsRoute = require('./api/logsRoute');
 const app = express();
 
 // Setup database connection
-mongoose.connect(process.env.DATABASE_URL, {
+mongoose.connect(process.env.MONGODB_URI || process.env.DATABASE_URL, {
   autoIndex: false,
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -42,7 +43,7 @@ app.use(express.urlencoded({ extended: false }));
 // parse application/json
 app.use(express.json());
 
-// app.disable('x-powered-by')
+// app.disable('x-powered-by');
 
 app.get('/', (req, res) => {
   res.json({
@@ -59,6 +60,15 @@ app.use(middlewares.errorHandler);
 // Port definition
 const port = process.env.PORT || 1980;
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  })
+}
+
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
 });
+//
