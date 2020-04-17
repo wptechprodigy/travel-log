@@ -8,7 +8,7 @@
     "client": "yarn build --prefix client",
     "server": "yarn start --prefix server",
     "start:dev": "concurrently 'yarn server' 'yarn client'",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --prefix client && yarn build --prefix"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --prefix client && yarn build --prefix client"
   },
   "dependencies": {
     "concurrently": "^5.1.0"
