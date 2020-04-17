@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGODB_URI || process.env.DATABASE_URL, {
 // Let's be sure the database is connected.
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', function () {
   // we're connected!
   console.log('Database has been connected!');
 });
@@ -45,11 +45,11 @@ app.use(express.json());
 
 // app.disable('x-powered-by');
 
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello World!',
-  });
-});
+// app.get('/', (req, res) => {
+//   res.json({
+//     message: 'Hello World!',
+//   });
+// });
 
 app.use('/api/logs', logsRoute);
 
@@ -63,9 +63,9 @@ const port = process.env.PORT || 1980;
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 
-  // app.get('*', (req, res) => {
-  //   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  // })
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
 }
 
 app.listen(port, () => {
