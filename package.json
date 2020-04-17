@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "cd server && cd client && yarn build",
-    "install-client": "cd client && yarn install",
+    "install-client": "cd server && cd client && yarn install",
     "client": "cd server && cd client && yarn start",
     "start": "cd server && yarn start",
     "start:dev": "concurrently 'yarn start' 'yarn client'",
