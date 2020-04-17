@@ -5,11 +5,12 @@
   "author": "Waheed Afolabi <waheed.remote247@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "build": "cd server && cd client && yarn build",
     "install-client": "cd server && cd client && yarn install",
     "client": "cd server && cd client && yarn start",
     "start": "cd server && yarn start",
     "start:dev": "concurrently 'yarn start' 'yarn client'",
-    "heroku-postbuild": "YARN_PRODUCTION=false yarn install-client && \"cd server && cd client && yarn build\""
+    "heroku-postbuild": "YARN_PRODUCTION=false yarn install-client && yarn run build"
   },
   "dependencies": {
     "concurrently": "^5.1.0"
